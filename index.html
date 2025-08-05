@@ -1,543 +1,745 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daily Care Schedule</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"></script>
     <style>
-        * { box-sizing: border-box; }
-        body { 
-            margin: 0; 
-            font-family: system-ui, -apple-system, sans-serif;
-            background-color: #f9fafb;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 1024px;
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
-        .card {
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-            border: 1px solid #e5e7eb;
-        }
-        .header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .content {
-            padding: 1.5rem;
-        }
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .btn-primary {
-            background: #2563eb;
-            color: white;
-        }
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
-        .btn-success {
-            background: #16a34a;
-            color: white;
-        }
-        .btn-success:hover {
-            background: #15803d;
-        }
-        .btn-secondary {
-            background: #6b7280;
-            color: white;
-        }
-        .btn-secondary:hover {
-            background: #4b5563;
-        }
-        .btn-danger {
-            background: #dc2626;
-            color: white;
-            padding: 0.5rem;
-        }
-        .btn-danger:hover {
-            background: #b91c1c;
-        }
-        .btn:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        .form-label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 0.5rem;
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+        background-color: #f9fafb;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1024px;
+        margin: 0 auto;
+        padding: 1.5rem;
+      }
+      .card {
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        border: 1px solid #e5e7eb;
+      }
+      .header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .content {
+        padding: 1.5rem;
+      }
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .btn-primary {
+        background: #2563eb;
+        color: white;
+      }
+      .btn-primary:hover {
+        background: #1d4ed8;
+      }
+      .btn-success {
+        background: #16a34a;
+        color: white;
+      }
+      .btn-success:hover {
+        background: #15803d;
+      }
+      .btn-secondary {
+        background: #6b7280;
+        color: white;
+      }
+      .btn-secondary:hover {
+        background: #4b5563;
+      }
+      .btn-danger {
+        background: #dc2626;
+        color: white;
+        padding: 0.5rem;
+      }
+      .btn-danger:hover {
+        background: #b91c1c;
+      }
+      .btn:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+      }
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      .form-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 0.5rem;
+      }
+      .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+      }
+      .form-control:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+      .grid {
+        display: grid;
+        gap: 1rem;
+      }
+      .grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      /* Mobile responsive adjustments */
+      @media (max-width: 768px) {
+        .grid-cols-2 {
+          grid-template-columns: 1fr;
         }
         .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            font-size: 1rem;
+          font-size: 0.875rem;
+          padding: 0.625rem;
         }
-        .form-control:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        .form-label {
+          font-size: 0.8125rem;
         }
-        .grid {
-            display: grid;
-            gap: 1rem;
+        .container {
+          padding: 1rem;
         }
-        .grid-cols-2 {
-            grid-template-columns: repeat(2, 1fr);
+        .header {
+          padding: 1rem;
         }
-        
-        /* Mobile responsive adjustments */
-        @media (max-width: 768px) {
-            .grid-cols-2 {
-                grid-template-columns: 1fr;
-            }
-            .form-control {
-                font-size: 0.875rem;
-                padding: 0.625rem;
-            }
-            .form-label {
-                font-size: 0.8125rem;
-            }
-            .container {
-                padding: 1rem;
-            }
-            .header {
-                padding: 1rem;
-            }
-            .content {
-                padding: 1rem;
-            }
-            .form-section {
-                padding: 1rem;
-            }
-            .btn {
-                font-size: 0.875rem;
-                padding: 0.625rem 1.25rem;
-            }
-            .schedule-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-                padding: 0.875rem;
-            }
-            .schedule-content {
-                width: 100%;
-            }
-            .schedule-details h4 {
-                font-size: 1rem;
-            }
-            .schedule-details p {
-                font-size: 0.875rem;
-            }
-            .filter-section {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.75rem;
-            }
-        }
-        .schedule-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            margin-bottom: 0.75rem;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-        .schedule-content {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .icon-container {
-            background: #dbeafe;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-        }
-        .icon {
-            width: 24px;
-            height: 24px;
-            stroke: #2563eb;
-            fill: none;
-            stroke-width: 2;
-        }
-        .schedule-details h4 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: #1f2937;
-            margin: 0 0 0.25rem 0;
-        }
-        .schedule-details p {
-            color: #6b7280;
-            margin: 0;
-        }
-        .tag {
-            display: inline-block;
-            background: #f3f4f6;
-            color: #374151;
-            padding: 0.125rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            margin-left: 0.5rem;
-        }
-        .reminder-text {
-            font-style: italic;
-            color: #2563eb;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-        }
-        .hidden { display: none; }
-        .text-center { text-align: center; }
-        .empty-state {
-            padding: 3rem 0;
-            text-align: center;
-            color: #6b7280;
-        }
-        .empty-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 1rem auto;
-            stroke: #d1d5db;
-        }
-        .summary {
-            margin-top: 2rem;
-            padding: 1rem;
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 0.5rem;
-        }
-        .summary h4 {
-            color: #1e40af;
-            font-weight: 500;
-            margin: 0 0 0.5rem 0;
-        }
-        .summary p {
-            color: #1e40af;
-            margin: 0.25rem 0;
+        .content {
+          padding: 1rem;
         }
         .form-section {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+          padding: 1rem;
         }
-        .form-section h3 {
-            font-size: 1.125rem;
-            font-weight: 500;
-            color: #1f2937;
-            margin: 0 0 1rem 0;
+        .btn {
+          font-size: 0.875rem;
+          padding: 0.625rem 1.25rem;
+        }
+        .schedule-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+          padding: 0.875rem;
+        }
+        .schedule-content {
+          width: 100%;
+        }
+        .schedule-details h4 {
+          font-size: 1rem;
+        }
+        .schedule-details p {
+          font-size: 0.875rem;
         }
         .filter-section {
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.75rem;
         }
-        .filter-count {
-            font-size: 0.875rem;
-            color: #6b7280;
-            margin-top: 1.5rem;
-        }
+      }
+      .schedule-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        margin-bottom: 0.75rem;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      }
+      .schedule-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .icon-container {
+        background: #dbeafe;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+      }
+      .icon {
+        width: 24px;
+        height: 24px;
+        stroke: #2563eb;
+        fill: none;
+        stroke-width: 2;
+      }
+      .schedule-details h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 0 0 0.25rem 0;
+      }
+      .schedule-details p {
+        color: #6b7280;
+        margin: 0;
+      }
+      .tag {
+        display: inline-block;
+        background: #f3f4f6;
+        color: #374151;
+        padding: 0.125rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        margin-left: 0.5rem;
+      }
+      .reminder-text {
+        font-style: italic;
+        color: #2563eb;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+      }
+      .hidden {
+        display: none;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .empty-state {
+        padding: 3rem 0;
+        text-align: center;
+        color: #6b7280;
+      }
+      .empty-icon {
+        width: 48px;
+        height: 48px;
+        margin: 0 auto 1rem auto;
+        stroke: #d1d5db;
+      }
+      .summary {
+        margin-top: 2rem;
+        padding: 1rem;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 0.5rem;
+      }
+      .summary h4 {
+        color: #1e40af;
+        font-weight: 500;
+        margin: 0 0 0.5rem 0;
+      }
+      .summary p {
+        color: #1e40af;
+        margin: 0.25rem 0;
+      }
+      .form-section {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+      .form-section h3 {
+        font-size: 1.125rem;
+        font-weight: 500;
+        color: #1f2937;
+        margin: 0 0 1rem 0;
+      }
+      .filter-section {
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .filter-count {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-top: 1.5rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="card">
-            <div class="header">
-                <h1 style="font-size: 1.5rem; font-weight: 600; color: #1f2937; margin: 0 0 0.5rem 0;">Daily Care Schedule</h1>
-                <p style="color: #6b7280; margin: 0;">Set up daily routines for TV, radio, lights, and reminders</p>
-                
-                <div class="filter-section">
-                    <div>
-                        <label class="form-label">View schedule for:</label>
-                        <select id="dayFilter" class="form-control" style="width: auto;">
-                            <option value="today">Today</option>
-                            <option value="tomorrow">Tomorrow</option>
-                            <option value="this-week">This Week</option>
-                            <option disabled>──────────</option>
-                            <option value="monday">Monday</option>
-                            <option value="tuesday">Tuesday</option>
-                            <option value="wednesday">Wednesday</option>
-                            <option value="thursday">Thursday</option>
-                            <option value="friday">Friday</option>
-                            <option value="saturday">Saturday</option>
-                            <option value="sunday">Sunday</option>
-                        </select>
-                    </div>
-                    <div id="filterCount" class="filter-count hidden"></div>
-                </div>
+      <div class="card">
+        <div
+          class="header"
+          style="
+            background-color: #dbeafe;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px 12px 0 0;
+          "
+        >
+          <h1
+            style="
+              font-size: 1.5rem;
+              font-weight: 600;
+              color: #1f2937;
+              margin: 0 0 0.5rem 0;
+            "
+          >
+            Daily Care Schedule
+          </h1>
+          <p style="color: #6b7280; margin: 0">
+            Set up daily routines for TV, radio, lights, and reminders
+          </p>
+
+          <div class="filter-section" style="justify-content: center">
+            <div>
+              <label class="form-label">View schedule for:</label>
+              <select id="dayFilter" class="form-control" style="width: auto">
+                <option value="today">Today</option>
+                <option value="tomorrow">Tomorrow</option>
+                <option value="this-week">This Week</option>
+                <option disabled>──────────</option>
+                <option value="monday">Monday</option>
+                <option value="tuesday">Tuesday</option>
+                <option value="wednesday">Wednesday</option>
+                <option value="thursday">Thursday</option>
+                <option value="friday">Friday</option>
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+              </select>
             </div>
-
-            <div class="content">
-                <button id="addBtn" class="btn btn-primary" style="font-size: 1.125rem; margin-bottom: 1.5rem;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 5v14M5 12h14"/>
-                    </svg>
-                    Add New Schedule Item
-                </button>
-
-                <div id="addForm" class="form-section hidden">
-                    <h3>Add New Schedule</h3>
-                    
-                    <div class="grid grid-cols-2">
-                        <div class="form-group">
-                            <label class="form-label">Which days?</label>
-                            <select id="scheduleDays" class="form-control">
-                                <option value="today">Today Only</option>
-                                <option value="tomorrow">Tomorrow Only</option>
-                                <option value="every-day">Every Day</option>
-                                <option value="weekdays">Weekdays (Mon-Fri)</option>
-                                <option value="weekends">Weekends (Sat-Sun)</option>
-                                <option disabled>──────────</option>
-                                <option value="monday">Monday</option>
-                                <option value="tuesday">Tuesday</option>
-                                <option value="wednesday">Wednesday</option>
-                                <option value="thursday">Thursday</option>
-                                <option value="friday">Friday</option>
-                                <option value="saturday">Saturday</option>
-                                <option value="sunday">Sunday</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">When should this happen?</label>
-                            <select id="scheduleTime" class="form-control">
-                                <option value="">Choose a time...</option>
-                                <option value="7:00 AM - Morning">7:00 AM - Morning</option>
-                                <option value="8:00 AM - Breakfast time">8:00 AM - Breakfast time</option>
-                                <option value="9:00 AM - Mid morning">9:00 AM - Mid morning</option>
-                                <option value="12:00 PM - Lunch time">12:00 PM - Lunch time</option>
-                                <option value="2:00 PM - Afternoon">2:00 PM - Afternoon</option>
-                                <option value="4:00 PM - Tea time">4:00 PM - Tea time</option>
-                                <option value="6:00 PM - Dinner time">6:00 PM - Dinner time</option>
-                                <option value="8:00 PM - Evening">8:00 PM - Evening</option>
-                                <option value="9:00 PM - Bedtime prep">9:00 PM - Bedtime prep</option>
-                                <option value="10:00 PM - Bedtime">10:00 PM - Bedtime</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">What device?</label>
-                            <select id="scheduleDevice" class="form-control">
-                                <option value="">Choose device...</option>
-                                <option value="tv">Television</option>
-                                <option value="radio">Radio</option>
-                                <option value="lights">Lights</option>
-                                <option value="reminder">Voice Reminder</option>
-                            </select>
-                        </div>
-
-                        <div id="actionGroup" class="form-group hidden">
-                            <label class="form-label">What should happen?</label>
-                            <select id="scheduleAction" class="form-control">
-                                <option value="">Choose action...</option>
-                            </select>
-                        </div>
-
-                        <div id="reminderGroup" class="form-group hidden">
-                            <label class="form-label">Reminder message</label>
-                            <input type="text" id="reminderText" class="form-control" placeholder="e.g., Time for your medication">
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-                        <button id="saveBtn" class="btn btn-success">Add Schedule</button>
-                        <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 id="scheduleTitle" style="font-size: 1.125rem; font-weight: 500; color: #1f2937; margin-bottom: 1rem;">Today Schedule (0 items)</h3>
-                    
-                    <div id="scheduleList">
-                        <div id="emptyState" class="empty-state">
-                            <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M12 6v6l4 2"/>
-                            </svg>
-                            <p style="font-size: 1.125rem; margin-bottom: 0.5rem;">No schedule items yet</p>
-                            <p>Click "Add New Schedule Item" to get started</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="summary" class="summary hidden">
-                    <h4>Schedule Summary</h4>
-                    <p>Total scheduled items: <strong id="totalItems">0</strong></p>
-                    <p>Currently viewing: <strong id="currentView">Today</strong> (<span id="viewingItems">0</span> items)</p>
-                    <p style="font-size: 0.875rem; margin-top: 0.5rem;">All times and actions can be modified or deleted as needed.</p>
-                </div>
-            </div>
+            <div id="filterCount" class="filter-count hidden"></div>
+          </div>
         </div>
+
+        <div class="content" style="text-align: center">
+          <button
+            id="addBtn"
+            class="btn btn-primary"
+            style="
+              font-size: 1.125rem;
+              margin-bottom: 1.5rem;
+              margin-left: auto;
+              margin-right: auto;
+            "
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Add New Schedule Item
+          </button>
+
+          <div id="addForm" class="form-section hidden">
+            <h3>Add New Schedule</h3>
+
+            <div class="grid grid-cols-2">
+              <div class="form-group">
+                <label class="form-label">Which days?</label>
+                <select id="scheduleDays" class="form-control">
+                  <option value="today">Today Only</option>
+                  <option value="tomorrow">Tomorrow Only</option>
+                  <option value="every-day">Every Day</option>
+                  <option value="weekdays">Weekdays (Mon-Fri)</option>
+                  <option value="weekends">Weekends (Sat-Sun)</option>
+                  <option disabled>──────────</option>
+                  <option value="monday">Monday</option>
+                  <option value="tuesday">Tuesday</option>
+                  <option value="wednesday">Wednesday</option>
+                  <option value="thursday">Thursday</option>
+                  <option value="friday">Friday</option>
+                  <option value="saturday">Saturday</option>
+                  <option value="sunday">Sunday</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">When should this happen?</label>
+                <select id="scheduleTime" class="form-control">
+                  <option value="now" selected>Now</option>
+                  <option value="custom">Set Custom Time...</option>
+                  <option value="7:00 AM - Morning">7:00 AM - Morning</option>
+                  <option value="8:00 AM - Breakfast time">
+                    8:00 AM - Breakfast time
+                  </option>
+                  <option value="9:00 AM - Mid morning">
+                    9:00 AM - Mid morning
+                  </option>
+                  <option value="10:00 AM">10:00 AM</option>
+                  <option value="11:00 AM">11:00 AM</option>
+                  <option value="12:00 PM - Lunch time">
+                    12:00 PM - Lunch time
+                  </option>
+                  <option value="1:00 PM">1:00 PM</option>
+                  <option value="2:00 PM - Afternoon">
+                    2:00 PM - Afternoon
+                  </option>
+                  <option value="3:00 PM">3:00 PM</option>
+                  <option value="4:00 PM - Tea time">4:00 PM - Tea time</option>
+                  <option value="5:00 PM">5:00 PM</option>
+                  <option value="6:00 PM">6:00 PM</option>
+                  <option value="7:00 PM - Dinner time">
+                    7:00 PM - Dinner time
+                  </option>
+                  <option value="8:00 PM - Evening">8:00 PM - Evening</option>
+                  <option value="9:00 PM">9:00 PM</option>
+                  <option value="10:00 PM">10:00 PM</option>
+                  <option value="11:00 PM - Bedtime">11:00 PM - Bedtime</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">What device?</label>
+                <select id="scheduleDevice" class="form-control">
+                  <option value="">Choose device...</option>
+                  <option value="tv">Television</option>
+                  <option value="radio">Radio</option>
+                  <option value="lights">Lights</option>
+                  <option value="reminder">Voice Reminder</option>
+                </select>
+              </div>
+
+              <div id="actionGroup" class="form-group hidden">
+                <label class="form-label">What should happen?</label>
+                <select id="scheduleAction" class="form-control">
+                  <option value="">Choose action...</option>
+                </select>
+              </div>
+
+              <div id="reminderGroup" class="form-group hidden">
+                <label class="form-label">Reminder message</label>
+                <input
+                  type="text"
+                  id="reminderText"
+                  class="form-control"
+                  placeholder="e.g., Time for your medication"
+                />
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem">
+              <button id="saveBtn" class="btn btn-success">Add Schedule</button>
+              <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+          </div>
+
+          <div>
+            <h3
+              id="scheduleTitle"
+              style="
+                font-size: 1.125rem;
+                font-weight: 500;
+                color: #1f2937;
+                margin-bottom: 1rem;
+              "
+            >
+              Today Schedule (0 items)
+            </h3>
+
+            <div id="scheduleList">
+              <div id="emptyState" class="empty-state">
+                <svg
+                  class="empty-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 6v6l4 2" />
+                </svg>
+                <p style="font-size: 1.125rem; margin-bottom: 0.5rem">
+                  No schedule items yet
+                </p>
+                <p>Click "Add New Schedule Item" to get started</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="summary" class="summary hidden">
+            <h4>Schedule Summary</h4>
+            <p>Total scheduled items: <strong id="totalItems">0</strong></p>
+            <p>
+              Currently viewing: <strong id="currentView">Today</strong> (<span
+                id="viewingItems"
+                >0</span
+              >
+              items)
+            </p>
+            <p style="font-size: 0.875rem; margin-top: 0.5rem">
+              All times and actions can be modified or deleted as needed.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-        // All JavaScript code embedded directly
-        let schedules = [];
-        let selectedDay = 'today';
+      // All JavaScript code embedded directly
+      let schedules = [];
+      let selectedDay = "today";
 
-        const deviceActions = {
-            tv: ['BBC One', 'BBC Two', 'ITV', 'Channel 4', 'Channel 5', 'BBC News', 'Turn Off'],
-            radio: ['BBC Radio 2', 'BBC Radio 4', 'Classic FM', 'Heart FM', 'Turn Off'],
-            lights: ['Turn On - Bright', 'Turn On - Dim', 'Turn Off'],
-            reminder: ['Play Recorded Message']
+      const deviceActions = {
+        tv: [
+          "BBC One",
+          "BBC Two",
+          "ITV",
+          "Channel 4",
+          "Channel 5",
+          "BBC News",
+          "Turn Off",
+        ],
+        radio: [
+          "BBC Radio 2",
+          "BBC Radio 4",
+          "Classic FM",
+          "Heart FM",
+          "Turn Off",
+        ],
+        lights: ["Turn On - Bright", "Turn On - Dim", "Turn Off"],
+        reminder: ["Play Recorded Message"],
+      };
+
+      const deviceIcons = {
+        tv: '<rect width="20" height="15" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+        radio:
+          '<circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>',
+        lights:
+          '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 9A7 7 0 1 1 8.91 9"/><path d="M13 13h-2"/><path d="M13 17h-2"/>',
+        reminder:
+          '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>',
+      };
+
+      function getCurrentDay() {
+        const days = [
+          "sunday",
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+        ];
+        return days[new Date().getDay()];
+      }
+
+      function getTomorrowDay() {
+        const days = [
+          "sunday",
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+        ];
+        return days[(new Date().getDay() + 1) % 7];
+      }
+
+      function getScheduleDays(scheduleDayValue) {
+        const currentDay = getCurrentDay();
+        const tomorrowDay = getTomorrowDay();
+
+        switch (scheduleDayValue) {
+          case "today":
+            return [currentDay];
+          case "tomorrow":
+            return [tomorrowDay];
+          case "every-day":
+            return [
+              "sunday",
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday",
+            ];
+          case "weekdays":
+            return ["monday", "tuesday", "wednesday", "thursday", "friday"];
+          case "weekends":
+            return ["saturday", "sunday"];
+          default:
+            return [scheduleDayValue];
+        }
+      }
+
+      function getDayLabel(dayValue) {
+        const labels = {
+          today: "Today Only",
+          tomorrow: "Tomorrow Only",
+          "every-day": "Every Day",
+          weekdays: "Weekdays (Mon-Fri)",
+          weekends: "Weekends (Sat-Sun)",
+          monday: "Monday",
+          tuesday: "Tuesday",
+          wednesday: "Wednesday",
+          thursday: "Thursday",
+          friday: "Friday",
+          saturday: "Saturday",
+          sunday: "Sunday",
         };
+        return labels[dayValue] || dayValue;
+      }
 
-        const deviceIcons = {
-            tv: '<rect width="20" height="15" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
-            radio: '<circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>',
-            lights: '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 9A7 7 0 1 1 8.91 9"/><path d="M13 13h-2"/><path d="M13 17h-2"/>',
-            reminder: '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>'
+      function getFilterLabel(filterValue) {
+        const labels = {
+          today: "Today",
+          tomorrow: "Tomorrow",
+          "this-week": "This Week",
+          monday: "Monday",
+          tuesday: "Tuesday",
+          wednesday: "Wednesday",
+          thursday: "Thursday",
+          friday: "Friday",
+          saturday: "Saturday",
+          sunday: "Sunday",
         };
+        return labels[filterValue] || filterValue;
+      }
 
-        function getCurrentDay() {
-            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-            return days[new Date().getDay()];
+      function filterSchedules() {
+        const currentDay = getCurrentDay();
+        const tomorrowDay = getTomorrowDay();
+
+        return schedules.filter((schedule) => {
+          const scheduleDays = getScheduleDays(schedule.days);
+
+          if (selectedDay === "today") return scheduleDays.includes(currentDay);
+          if (selectedDay === "tomorrow")
+            return scheduleDays.includes(tomorrowDay);
+          if (selectedDay === "this-week") return true;
+          if (
+            [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday",
+              "sunday",
+            ].includes(selectedDay)
+          ) {
+            return scheduleDays.includes(selectedDay);
+          }
+          return false;
+        });
+      }
+
+      function renderSchedules() {
+        const filteredSchedules = filterSchedules();
+        const scheduleList = document.getElementById("scheduleList");
+        const scheduleTitle = document.getElementById("scheduleTitle");
+        const filterCount = document.getElementById("filterCount");
+        const summary = document.getElementById("summary");
+
+        scheduleTitle.textContent = `${getFilterLabel(selectedDay)} Schedule (${
+          filteredSchedules.length
+        } items)`;
+
+        if (filteredSchedules.length > 0 && schedules.length > 0) {
+          filterCount.textContent = `Showing ${filteredSchedules.length} of ${schedules.length} total items`;
+          filterCount.classList.remove("hidden");
+        } else {
+          filterCount.classList.add("hidden");
         }
 
-        function getTomorrowDay() {
-            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-            return days[(new Date().getDay() + 1) % 7];
+        if (schedules.length > 0) {
+          document.getElementById("totalItems").textContent = schedules.length;
+          document.getElementById("currentView").textContent =
+            getFilterLabel(selectedDay);
+          document.getElementById("viewingItems").textContent =
+            filteredSchedules.length;
+          summary.classList.remove("hidden");
+        } else {
+          summary.classList.add("hidden");
         }
 
-        function getScheduleDays(scheduleDayValue) {
-            const currentDay = getCurrentDay();
-            const tomorrowDay = getTomorrowDay();
-            
-            switch (scheduleDayValue) {
-                case 'today': return [currentDay];
-                case 'tomorrow': return [tomorrowDay];
-                case 'every-day': return ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-                case 'weekdays': return ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-                case 'weekends': return ['saturday', 'sunday'];
-                default: return [scheduleDayValue];
-            }
-        }
+        scheduleList.innerHTML = "";
 
-        function getDayLabel(dayValue) {
-            const labels = {
-                'today': 'Today Only', 'tomorrow': 'Tomorrow Only', 'every-day': 'Every Day',
-                'weekdays': 'Weekdays (Mon-Fri)', 'weekends': 'Weekends (Sat-Sun)',
-                'monday': 'Monday', 'tuesday': 'Tuesday', 'wednesday': 'Wednesday',
-                'thursday': 'Thursday', 'friday': 'Friday', 'saturday': 'Saturday', 'sunday': 'Sunday'
-            };
-            return labels[dayValue] || dayValue;
-        }
-
-        function getFilterLabel(filterValue) {
-            const labels = {
-                'today': 'Today', 'tomorrow': 'Tomorrow', 'this-week': 'This Week',
-                'monday': 'Monday', 'tuesday': 'Tuesday', 'wednesday': 'Wednesday',
-                'thursday': 'Thursday', 'friday': 'Friday', 'saturday': 'Saturday', 'sunday': 'Sunday'
-            };
-            return labels[filterValue] || filterValue;
-        }
-
-        function filterSchedules() {
-            const currentDay = getCurrentDay();
-            const tomorrowDay = getTomorrowDay();
-            
-            return schedules.filter(schedule => {
-                const scheduleDays = getScheduleDays(schedule.days);
-                
-                if (selectedDay === 'today') return scheduleDays.includes(currentDay);
-                if (selectedDay === 'tomorrow') return scheduleDays.includes(tomorrowDay);
-                if (selectedDay === 'this-week') return true;
-                if (['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].includes(selectedDay)) {
-                    return scheduleDays.includes(selectedDay);
-                }
-                return false;
-            });
-        }
-
-        function renderSchedules() {
-            const filteredSchedules = filterSchedules();
-            const scheduleList = document.getElementById('scheduleList');
-            const scheduleTitle = document.getElementById('scheduleTitle');
-            const filterCount = document.getElementById('filterCount');
-            const summary = document.getElementById('summary');
-
-            scheduleTitle.textContent = `${getFilterLabel(selectedDay)} Schedule (${filteredSchedules.length} items)`;
-
-            if (filteredSchedules.length > 0 && schedules.length > 0) {
-                filterCount.textContent = `Showing ${filteredSchedules.length} of ${schedules.length} total items`;
-                filterCount.classList.remove('hidden');
-            } else {
-                filterCount.classList.add('hidden');
-            }
-
-            if (schedules.length > 0) {
-                document.getElementById('totalItems').textContent = schedules.length;
-                document.getElementById('currentView').textContent = getFilterLabel(selectedDay);
-                document.getElementById('viewingItems').textContent = filteredSchedules.length;
-                summary.classList.remove('hidden');
-            } else {
-                summary.classList.add('hidden');
-            }
-
-            scheduleList.innerHTML = '';
-
-            if (filteredSchedules.length === 0) {
-                const emptyDiv = document.createElement('div');
-                emptyDiv.className = 'empty-state';
-                emptyDiv.innerHTML = `
+        if (filteredSchedules.length === 0) {
+          const emptyDiv = document.createElement("div");
+          emptyDiv.className = "empty-state";
+          emptyDiv.innerHTML = `
                     <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"/>
                         <path d="M12 6v6l4 2"/>
                     </svg>
-                    <p style="font-size: 1.125rem; margin-bottom: 0.5rem;">${schedules.length === 0 ? 'No schedule items yet' : `No items scheduled for ${getFilterLabel(selectedDay).toLowerCase()}`}</p>
-                    <p>${schedules.length === 0 ? 'Click "Add New Schedule Item" to get started' : 'Try viewing a different day or add new items'}</p>
+                    <p style="font-size: 1.125rem; margin-bottom: 0.5rem;">${
+                      schedules.length === 0
+                        ? "No schedule items yet"
+                        : `No items scheduled for ${getFilterLabel(
+                            selectedDay
+                          ).toLowerCase()}`
+                    }</p>
+                    <p>${
+                      schedules.length === 0
+                        ? 'Click "Add New Schedule Item" to get started'
+                        : "Try viewing a different day or add new items"
+                    }</p>
                 `;
-                scheduleList.appendChild(emptyDiv);
-                return;
-            }
+          scheduleList.appendChild(emptyDiv);
+          return;
+        }
 
-            filteredSchedules.sort((a, b) => a.time.split(' - ')[0].localeCompare(b.time.split(' - ')[0]));
+        filteredSchedules.sort((a, b) =>
+          a.time.split(" - ")[0].localeCompare(b.time.split(" - ")[0])
+        );
 
-            filteredSchedules.forEach(schedule => {
-                const timeDisplay = schedule.time.split(' - ')[0];
-                const timeLabel = schedule.time.split(' - ')[1] || '';
-                const deviceName = schedule.device === 'tv' ? 'Television' : 
-                                 schedule.device === 'radio' ? 'Radio' : 
-                                 schedule.device === 'lights' ? 'Lights' : 'Voice Reminder';
-                const dayLabel = getDayLabel(schedule.days);
+        filteredSchedules.forEach((schedule) => {
+          const timeDisplay = schedule.time.split(" - ")[0];
+          const timeLabel = schedule.time.split(" - ")[1] || "";
+          const deviceName =
+            schedule.device === "tv"
+              ? "Television"
+              : schedule.device === "radio"
+              ? "Radio"
+              : schedule.device === "lights"
+              ? "Lights"
+              : "Voice Reminder";
+          const dayLabel = getDayLabel(schedule.days);
 
-                const scheduleDiv = document.createElement('div');
-                scheduleDiv.className = 'schedule-item';
-                scheduleDiv.innerHTML = `
+          const scheduleDiv = document.createElement("div");
+          scheduleDiv.className = "schedule-item";
+          scheduleDiv.innerHTML = `
                     <div class="schedule-content">
                         <div class="icon-container">
-                            <svg class="icon" viewBox="0 0 24 24">${deviceIcons[schedule.device]}</svg>
+                            <svg class="icon" viewBox="0 0 24 24">${
+                              deviceIcons[schedule.device]
+                            }</svg>
                         </div>
                         <div class="schedule-details">
-                            <h4>${timeDisplay} ${timeLabel ? `<span style="font-weight: normal; color: #6b7280; font-size: 0.875rem;">(${timeLabel})</span>` : ''}</h4>
-                            <p><strong>${deviceName}:</strong> ${schedule.action}${!['Today Only', 'Tomorrow Only', 'This Week'].includes(dayLabel) ? `<span class="tag">${dayLabel}</span>` : ''}</p>
-                            ${schedule.reminderText ? `<div class="reminder-text">"${schedule.reminderText}"</div>` : ''}
+                            <h4>${timeDisplay} ${
+            timeLabel
+              ? `<span style="font-weight: normal; color: #6b7280; font-size: 0.875rem;">(${timeLabel})</span>`
+              : ""
+          }</h4>
+                            <p><strong>${deviceName}:</strong> ${
+            schedule.action
+          }${
+            !["Today Only", "Tomorrow Only", "This Week"].includes(dayLabel)
+              ? `<span class="tag">${dayLabel}</span>`
+              : ""
+          }</p>
+                            ${
+                              schedule.reminderText
+                                ? `<div class="reminder-text">"${schedule.reminderText}"</div>`
+                                : ""
+                            }
                         </div>
                     </div>
-                    <button onclick="deleteSchedule(${schedule.id})" class="btn btn-danger" title="Delete this schedule item">
+                    <button onclick="deleteSchedule(${
+                      schedule.id
+                    })" class="btn btn-danger" title="Delete this schedule item">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c0-1 1-2 2-2v2"/>
                             <line x1="10" y1="11" x2="10" y2="17"/>
@@ -545,99 +747,344 @@
                         </svg>
                     </button>
                 `;
-                scheduleList.appendChild(scheduleDiv);
-            });
+          scheduleList.appendChild(scheduleDiv);
+        });
+      }
+
+      function addSchedule() {
+        const days = document.getElementById("scheduleDays").value;
+        let time = document.getElementById("scheduleTime").value;
+        const device = document.getElementById("scheduleDevice").value;
+        const action = document.getElementById("scheduleAction").value;
+        const reminderText = document.getElementById("reminderText").value;
+
+        // Handle "now" option
+        if (time === "now") {
+          // Get current time
+          const now = new Date();
+          let hours = now.getHours();
+          const minutes = now.getMinutes();
+          const ampm = hours >= 12 ? "PM" : "AM";
+
+          // Convert to 12-hour format
+          if (hours > 12) {
+            hours -= 12;
+          } else if (hours === 0) {
+            hours = 12;
+          }
+
+          // Round minutes to nearest 5-minute segment
+          const roundedMinutes = Math.round(minutes / 5) * 5;
+          const displayMinutes = roundedMinutes === 60 ? 0 : roundedMinutes;
+          if (roundedMinutes === 60) {
+            hours = hours === 12 ? 1 : hours + 1;
+          }
+
+          time = `${hours}:${String(displayMinutes).padStart(2, "0")} ${ampm}`;
         }
 
-        function addSchedule() {
-            const days = document.getElementById('scheduleDays').value;
-            const time = document.getElementById('scheduleTime').value;
-            const device = document.getElementById('scheduleDevice').value;
-            const action = document.getElementById('scheduleAction').value;
-            const reminderText = document.getElementById('reminderText').value;
-
-            if (!time || !device || !action) {
-                alert('Please fill in all required fields');
-                return;
-            }
-
-            const schedule = {
-                id: Date.now(),
-                days, time, device, action,
-                reminderText: device === 'reminder' ? reminderText : '',
-                createdAt: new Date().toLocaleString()
-            };
-
-            schedules.push(schedule);
-            hideAddForm();
-            renderSchedules();
+        if (!time || !device || !action) {
+          alert("Please fill in all required fields");
+          return;
         }
 
-        function deleteSchedule(id) {
-            schedules = schedules.filter(s => s.id !== id);
-            renderSchedules();
+        const schedule = {
+          id: Date.now(),
+          days,
+          time,
+          device,
+          action,
+          reminderText: device === "reminder" ? reminderText : "",
+          createdAt: new Date().toLocaleString(),
+        };
+
+        schedules.push(schedule);
+        hideAddForm();
+        renderSchedules();
+      }
+
+      function deleteSchedule(id) {
+        schedules = schedules.filter((s) => s.id !== id);
+        renderSchedules();
+      }
+
+      function showAddForm() {
+        document.getElementById("addBtn").classList.add("hidden");
+        document.getElementById("addForm").classList.remove("hidden");
+      }
+
+      function setDefaultTime() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+
+        // Calculate next half-hour
+        let defaultHours = hours;
+        let defaultMinutes = 0;
+        let ampm = defaultHours >= 12 ? "PM" : "AM";
+
+        if (minutes < 30) {
+          defaultMinutes = 30;
+        } else {
+          defaultMinutes = 0;
+          defaultHours += 1;
         }
 
-        function showAddForm() {
-            document.getElementById('addBtn').classList.add('hidden');
-            document.getElementById('addForm').classList.remove('hidden');
+        // Convert to 12-hour format
+        if (defaultHours > 12) {
+          defaultHours -= 12;
+        } else if (defaultHours === 0) {
+          defaultHours = 12;
         }
 
-        function hideAddForm() {
-            document.getElementById('addBtn').classList.remove('hidden');
-            document.getElementById('addForm').classList.add('hidden');
-            document.getElementById('scheduleDays').value = 'today';
-            document.getElementById('scheduleTime').value = '';
-            document.getElementById('scheduleDevice').value = '';
-            document.getElementById('scheduleAction').value = '';
-            document.getElementById('reminderText').value = '';
-            document.getElementById('actionGroup').classList.add('hidden');
-            document.getElementById('reminderGroup').classList.add('hidden');
+        // Format time string
+        const timeString = `${defaultHours}:${defaultMinutes
+          .toString()
+          .padStart(2, "0")} ${ampm}`;
+
+        // Find matching option in the select
+        const timeSelect = document.getElementById("scheduleTime");
+        for (let i = 0; i < timeSelect.options.length; i++) {
+          // Check if option value starts with the time string
+          if (timeSelect.options[i].value.startsWith(timeString)) {
+            timeSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+
+      function hideAddForm() {
+        document.getElementById("addBtn").classList.remove("hidden");
+        document.getElementById("addForm").classList.add("hidden");
+        document.getElementById("scheduleDays").value = "today";
+        document.getElementById("scheduleTime").value = "";
+        document.getElementById("scheduleDevice").value = "";
+        document.getElementById("scheduleAction").value = "";
+        document.getElementById("reminderText").value = "";
+        document.getElementById("actionGroup").classList.add("hidden");
+        document.getElementById("reminderGroup").classList.add("hidden");
+      }
+
+      function updateActionOptions() {
+        const device = document.getElementById("scheduleDevice").value;
+        const actionSelect = document.getElementById("scheduleAction");
+        const actionGroup = document.getElementById("actionGroup");
+        const reminderGroup = document.getElementById("reminderGroup");
+
+        if (!device) {
+          actionGroup.classList.add("hidden");
+          reminderGroup.classList.add("hidden");
+          return;
         }
 
-        function updateActionOptions() {
-            const device = document.getElementById('scheduleDevice').value;
-            const actionSelect = document.getElementById('scheduleAction');
-            const actionGroup = document.getElementById('actionGroup');
-            const reminderGroup = document.getElementById('reminderGroup');
+        actionGroup.classList.remove("hidden");
+        actionSelect.innerHTML = '<option value="">Choose action...</option>';
 
-            if (!device) {
-                actionGroup.classList.add('hidden');
-                reminderGroup.classList.add('hidden');
-                return;
-            }
-
-            actionGroup.classList.remove('hidden');
-            actionSelect.innerHTML = '<option value="">Choose action...</option>';
-
-            if (deviceActions[device]) {
-                deviceActions[device].forEach(action => {
-                    const option = document.createElement('option');
-                    option.value = action;
-                    option.textContent = action;
-                    actionSelect.appendChild(option);
-                });
-            }
-
-            if (device === 'reminder') {
-                reminderGroup.classList.remove('hidden');
-            } else {
-                reminderGroup.classList.add('hidden');
-            }
+        if (deviceActions[device]) {
+          deviceActions[device].forEach((action) => {
+            const option = document.createElement("option");
+            option.value = action;
+            option.textContent = action;
+            actionSelect.appendChild(option);
+          });
         }
 
-        // Event listeners
-        document.getElementById('addBtn').addEventListener('click', showAddForm);
-        document.getElementById('saveBtn').addEventListener('click', addSchedule);
-        document.getElementById('cancelBtn').addEventListener('click', hideAddForm);
-        document.getElementById('scheduleDevice').addEventListener('change', updateActionOptions);
-        document.getElementById('dayFilter').addEventListener('change', function() {
-            selectedDay = this.value;
-            renderSchedules();
+        if (device === "reminder") {
+          reminderGroup.classList.remove("hidden");
+        } else {
+          reminderGroup.classList.add("hidden");
+        }
+      }
+
+      // Event listeners
+      document.getElementById("addBtn").addEventListener("click", showAddForm);
+      document.getElementById("saveBtn").addEventListener("click", addSchedule);
+      document
+        .getElementById("cancelBtn")
+        .addEventListener("click", hideAddForm);
+      document
+        .getElementById("scheduleDevice")
+        .addEventListener("change", updateActionOptions);
+      document
+        .getElementById("dayFilter")
+        .addEventListener("change", function () {
+          selectedDay = this.value;
+          renderSchedules();
         });
 
-        // Initialize
-        renderSchedules();
+      // Handle time selection change
+      document
+        .getElementById("scheduleTime")
+        .addEventListener("change", function () {
+          if (this.value === "custom") {
+            showCustomTimePicker();
+          }
+        });
+
+      // Custom time picker functionality
+      function showCustomTimePicker() {
+        // Create modal for time picker
+        const modal = document.createElement("div");
+        modal.id = "timePickerModal";
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        `;
+
+        modal.innerHTML = `
+          <div class="card" style="width: 320px; max-width: 95%; padding: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+            <div style="background: #2563eb; color: white; padding: 1.25rem; text-align: center;">
+              <h3 style="margin: 0; font-size: 1.25rem; font-weight: 500;">Select Time</h3>
+            </div>
+            <div style="padding: 1.5rem;">
+              <div style="display: flex; justify-content: center; gap: 0.75rem; margin: 1rem 0;">
+                <div style="text-align: center;">
+                  <label class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Hour</label>
+                  <select id="hourPicker" class="form-control" style="width: 80px; height: 42px; text-align: center; font-size: 1rem; border-radius: 8px; border: 1px solid #d1d5db;">
+                    ${(() => {
+                      // Get next half hour for default values
+                      const now = new Date();
+                      let defaultHours = now.getHours();
+                      let defaultMinutes = now.getMinutes();
+
+                      // Calculate next half-hour
+                      if (defaultMinutes < 30) {
+                        defaultMinutes = 30;
+                      } else {
+                        defaultMinutes = 0;
+                        defaultHours += 1;
+                      }
+
+                      // Convert to 12-hour format
+                      if (defaultHours > 12) {
+                        defaultHours -= 12;
+                      } else if (defaultHours === 0) {
+                        defaultHours = 12;
+                      }
+
+                      return Array.from({ length: 12 }, (_, i) => {
+                        const hour = i + 1;
+                        const selected =
+                          hour === defaultHours ? "selected" : "";
+                        return `<option value="${hour}" ${selected}>${hour}</option>`;
+                      }).join("");
+                    })()}
+                  </select>
+                </div>
+                <div style="text-align: center;">
+                  <label class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Minute</label>
+                  <select id="minutePicker" class="form-control" style="width: 80px; height: 42px; text-align: center; font-size: 1rem; border-radius: 8px; border: 1px solid #d1d5db;">
+                    ${(() => {
+                      // Get next half hour for default values
+                      const now = new Date();
+                      let defaultMinutes = now.getMinutes();
+
+                      // Calculate next half-hour
+                      if (defaultMinutes < 30) {
+                        defaultMinutes = 30;
+                      } else {
+                        defaultMinutes = 0;
+                      }
+
+                      return Array.from({ length: 12 }, (_, i) => {
+                        const minute = i * 5;
+                        const displayMinute = String(minute).padStart(2, "0");
+                        const selected =
+                          minute === defaultMinutes ? "selected" : "";
+                        return `<option value="${minute}" ${selected}>${displayMinute}</option>`;
+                      }).join("");
+                    })()}
+                  </select>
+                </div>
+                <div style="text-align: center;">
+                  <label class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Period</label>
+                  <select id="ampmPicker" class="form-control" style="width: 80px; height: 42px; text-align: center; font-size: 1rem; border-radius: 8px; border: 1px solid #d1d5db;">
+                    ${(() => {
+                      // Get next half hour for default values
+                      const now = new Date();
+                      let defaultHours = now.getHours();
+                      let defaultMinutes = now.getMinutes();
+
+                      // Calculate next half-hour
+                      if (defaultMinutes >= 30) {
+                        defaultHours += 1;
+                      }
+
+                      const ampm = defaultHours >= 12 ? "PM" : "AM";
+                      return `
+                        <option value="AM" ${
+                          ampm === "AM" ? "selected" : ""
+                        }>AM</option>
+                        <option value="PM" ${
+                          ampm === "PM" ? "selected" : ""
+                        }>PM</option>
+                      `;
+                    })()}
+                  </select>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1.5rem;">
+                <button id="confirmTime" class="btn btn-success" style="flex: 1; padding: 0.75rem; font-size: 1rem; font-weight: 500; border-radius: 8px;">Set Time</button>
+                <button id="cancelTime" class="btn btn-secondary" style="flex: 1; padding: 0.75rem; font-size: 1rem; font-weight: 500; border-radius: 8px;">Cancel</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Add event listeners for the time picker
+        document
+          .getElementById("confirmTime")
+          .addEventListener("click", function () {
+            const hour = document.getElementById("hourPicker").value;
+            const minute = document.getElementById("minutePicker").value;
+            const ampm = document.getElementById("ampmPicker").value;
+            const timeValue = `${hour}:${minute.padStart(2, "0")} ${ampm}`;
+
+            // Set the selected time in the main form
+            const timeSelect = document.getElementById("scheduleTime");
+            // Check if this time already exists in the options
+            let optionExists = false;
+            for (let i = 0; i < timeSelect.options.length; i++) {
+              if (timeSelect.options[i].value === timeValue) {
+                optionExists = true;
+                timeSelect.selectedIndex = i;
+                break;
+              }
+            }
+
+            // If not exists, add it as a new option
+            if (!optionExists) {
+              const newOption = document.createElement("option");
+              newOption.value = timeValue;
+              newOption.textContent = timeValue;
+              timeSelect.appendChild(newOption);
+              timeSelect.value = timeValue;
+            }
+
+            document.body.removeChild(modal);
+          });
+
+        document
+          .getElementById("cancelTime")
+          .addEventListener("click", function () {
+            // Reset to the default "Choose a time..." option
+            document.getElementById("scheduleTime").selectedIndex = 0;
+            document.body.removeChild(modal);
+          });
+      }
+
+      // Initialize
+      renderSchedules();
     </script>
-</body>
+  </body>
 </html>
